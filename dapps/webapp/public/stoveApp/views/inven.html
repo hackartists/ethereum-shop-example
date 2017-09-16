@@ -1,0 +1,39 @@
+<div id="sc_container" ng-controller="InvenController as inven">
+    <div id="category-container" class="row">
+        <div class="col-sm-4 col-md-3 sidebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mini-submenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </div>
+                    <div class="category list-group">
+                        <a ng-repeat="cItem in inven.category" ng-click="inven.build_items($index)" class="category-item list-group-item">
+                            <i class="fa fa-comment-o"></i>{{cItem.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="product-container" class="col-sm-8 id-card-list card-list two-cards">
+            <div ng-repeat="pItem in inven.items" class="card no-rationale square-cover apps small">
+                <div class="card-content id-track-click id-track-impression">
+                    <div class="cover">
+                        <div class="cover-image-container">
+                            <div class="cover-outer-align">
+                                <div class="cover-inner-align">
+                                    <img alt="{{pItem.name}}" src="{{pItem.image}}" class="cover-image" />
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" ng-click="inven.sellItem($index)" class="card-click-target"></a>
+                    </div>
+                    <div class="details">
+                        <div class="title">{{pItem.name}}</div>
+                        <div class="subtitle-container">{{pItem.category}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

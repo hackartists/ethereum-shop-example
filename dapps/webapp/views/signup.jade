@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  #sc_container
+    form
+      .form-group
+        label Username
+        input.form-control(type='text', placeholder='Enter username', ng-model='stove.su_uid')
+      .form-group
+        label Password
+        input.form-control(type='password', placeholder='Password', ng-model='stove.su_pw')
+      .form-group
+        label Re-enter password
+        input.form-control(type='password', placeholder='Password', ng-model='stove.su_rpw')
+      button.btn.btn-primary(type='submit' ng-click='stove.signup()') Submit

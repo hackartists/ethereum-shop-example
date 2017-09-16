@@ -1,0 +1,55 @@
+extends layout
+
+block content
+  #sc_container
+    .row#category-container
+      .col-sm-4.col-md-3.sidebar
+        .row
+          .col-md-12
+            .mini-submenu
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            .category.list-group
+              a.category-item.list-group-item(href='#' ng-repeat="cItem in stove.category" ng-click="stove.changeCategory($index)")
+                i.fa.fa-comment-o
+                |  {{cItem.name}}
+        .row(class='{{stove.sellView}}')
+          .col-md-12
+            form
+              .form-group.row
+                label Title
+                input.form-control(type='text', ng-model='stove.sp_title' placeholder='Enter the name')
+              .form-group.row
+                label Owner
+                input.form-control(type='text', ng-model='stove.sp_uid' placeholder='Enter your username')
+              .form-group.row
+                label Price
+                input.form-control(type='text', ng-model='stove.sp_price' placeholder='Enter the price')
+              .form-group.row
+                label Category
+                select.form-control(ng-model='stove.sp_cat')
+                  option(ng-repeat='cat in stove.category') {{cat.name}}
+              .form-group.row
+                label Image
+                input.form-control(type='text', ng-model='stove.sp_pic' placeholder='Enter URL of an image')
+
+              .form-group.row.align-right
+                button.btn.btn-primary(type='submit' ng-click='stove.sellProduct()') Sell Product
+
+        .sidefoot(class='{{stove.sellButton}}')
+          a(href='' ng-click='stove.showSellView()') Sell Product
+      #product-container.col-sm-8.id-card-list.card-list.two-cards
+        .card.no-rationale.square-cover.apps.small(ng-repeat="pItem in stove.products")
+          .card-content.id-track-click.id-track-impression
+            .cover
+              .cover-image-container
+                .cover-outer-align
+                  .cover-inner-align
+                    img.cover-image(alt='{{pItem.name}}', src='{{pItem.image}}')
+              a.card-click-target(href='' ng-click='stove.buyProduct($index)')
+            .details
+              .title {{pItem.name}}    
+              .subtitle-container    {{pItem.category}}    
+            .reason-set   {{pItem.price}} ETH 
+      

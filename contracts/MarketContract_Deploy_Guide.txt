@@ -1,0 +1,10 @@
+Web3 = require('web3')
+web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+code = fs.readFileSync('Market.sol').toString()
+solc = require('solc')
+compiledCode = solc.compile(code)
+abiDefinition = JSON.parse(compiledCode.contracts[':Market'].interface)
+byteCode = compiledCode.contracts[':Market'].bytecode
+MarketContract = web3.eth.contract(abiDefinition)
+deployedContract = MarketContract.new([web3.eth.accounts[0]],{data: byteCode, from: web3.eth.coinbase, gas:500000})
+contractInstance = MarketContract.at(deployedContract.address)

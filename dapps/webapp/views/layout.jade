@@ -1,0 +1,72 @@
+doctype html
+html(ng-app='stovecoinApp')
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css')
+    
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js")
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js')
+    
+    script(src='/vendors/web3.min.js')
+    script(src='/stoveApp/stovecoin_app.js')
+    script(src='/stoveApp/controllers/stovecoin.js')
+    script(src='/stoveApp/controllers/inven.js')
+    script(src='/stoveApp/controllers/shop.js')
+    script(src='/stoveApp/factory/sha256.js')
+    script(src='/stoveApp/factory/shared.js')
+    script(src='/stoveApp/factory/ethereum.js')
+    
+  body(ng-controller='StovecoinController as stove')
+    #top-container
+      nav.navbar.navbar-default
+        .container-fluid
+          .navbar-header
+            a.navbar-brand(href='#') StoveCoin
+          ul.nav.navbar-nav
+            li
+              a(ui-sref='home' ui-sref-active="active") Home
+            li
+              a(ui-sref='shop' ui-sref-active="active") Stove Shop
+            li
+              a(ui-sref='inven' ui-sref-active="active") My Inventory
+            li
+              a(ui-sref='about' ui-sref-active="active") About
+          
+          ul.nav.navbar-nav.navbar-right(ng-if='stove.login == false')
+            li
+              div.login-text
+                input.form-control.mr-sm-2(type='text' ng-model='stove.uid' placeholder='Username')
+            li
+              div.login-text
+                input.form-control.mr-sm-2(type='password' ng-model='stove.upw' placeholder='Password')
+            li
+              a(href='#' ng-click='stove.signin()')
+                span.glyphicon.glyphicon-log-in
+                |  Login
+            li
+              a(href='#' ng-click='stove.signup()')
+                span.glyphicon.glyphicon-user
+                |  Sign Up
+                
+          ul.nav.navbar-nav.navbar-right(ng-if='stove.login == true')
+            li
+              div.login-text {{stove.user.username}}
+            li
+              div.login-text {{stove.user.eth}}
+    ui-view
+    footer.footer
+      .container
+        p.text-muted Copyright 2017 Smilegate Stove
+
+
+      
+      
