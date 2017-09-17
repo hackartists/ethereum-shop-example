@@ -6,22 +6,38 @@ angular.module('stovecoinApp')
         shop.selectedCategory=0;
 
 	    shop.products = [];
-        shop.category = [
-            {id:0,name:"Game"},
-            {id:1,name:"Video"},
-            {id:2,name:"Appliance"},
-            {id:3,name:"Hardware"}
-        ];
+        shop.category = [];
 
         shop.init = function() {
-		    shop.getProducts();
-		    sharedService.setChangeProductCallback(shop.changeCategory);
+			if(sharedService.user) {
+				sharedService.user.eth=EthereumService.getBalance(sharedService.user);
+			}
+
+            shop.getCategory(function(){
+				shop.getProducts();
+				sharedService.setChangeProductCallback(shop.changeCategory);
+			});
         };
 
 	    shop.changeCategory = function(index) {
 		    shop.selectedCategory=index;
             shop.getProducts();
 	    };
+
+        shop.getCategory = function(callback) {
+            var req = {
+                method: 'GET',
+                url: '/product/category'
+            };
+
+            $http(req).then(function successCallback(response) {
+                if (response.data.result == "OK") {
+                    shop.category = response.data.category;
+					callback();
+                }
+            }, function errorCallback(response) {
+            });
+        };
 
         shop.getProducts = function() {
             var req = {
@@ -33,13 +49,15 @@ angular.module('stovecoinApp')
                 if (response.data.result == "OK") {
                     shop.products = [];
                     products = response.data.data;
+					shop.products = products;
                     var abi = response.data.abi;
 
                     for (var i=0; i<products.length; i++) {
                         var contract = EthereumService.getContract(abi,products[i].contract);
 
                         if (contract.result) {
-                            var contract = contract.contract;
+							var contract = contract.contract;
+							shop.products[i].contract = contract;
 							var info = EthereumService.getInfo(contract);
 
 							var r = {
@@ -47,10 +65,15 @@ angular.module('stovecoinApp')
 								url: '/inven/item?inven_id='+info._id
 							};
 
-							$http(r).then(function successCallback(response) {
-								var item = response.data.data;
-								item.price = info.price;
-								shop.products.push(item);
+							$http(r).then(function callback(res) {
+								var item = res.data.data;
+								var product = shop.products.filter(function(x) {
+									return x.product == item._id
+								})[0];
+
+								product.image = item.image;
+								product.name = item.name;
+								//shop.products.push(item);
 							}, function errorCallback(response) {
 							});
                         }
@@ -70,14 +93,13 @@ angular.module('stovecoinApp')
 			var confirm = $mdDialog.confirm()
 				.title('Would you like to purchase '+shop.products[index].name+'?')
 				.textContent('The price of '+shop.products[index].name+' is '+shop.products[index].price )
-				.ariaLabel('Lucky day')
 				.ok('Purchase')
 				.cancel('Cancel');
 
 			$mdDialog.show(confirm).then(function() {
-				$scope.status = 'You decided to get rid of your debt.';
+				EthereumService.purchase(shop.products[index].contract, shop.products[index], sharedService.user);
+				shop.getProducts();
 			}, function() {
-				$scope.status = 'You decided to keep your debt.';
 			});
 
         };

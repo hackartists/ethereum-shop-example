@@ -37,6 +37,54 @@ router.post('/sell', function(req, res, next) {
 	});
 });
 
+router.post('/purchase' , function(req,res,next) {
+	var data=req.body;
+
+	Product.remove({product:data.pid}, function(err) {
+		if (!err) {
+			Inventory.update({ _id:data.pid }, { $set: { owner: data.uid }}, function(err,item){
+				if (err) {
+					res.json({result:"FAIL"});
+					return;
+				}
+
+				res.json({result:"OK"});
+
+			});
+		}
+	});
+});
+
+router.get('/category', function(req,res,next) {
+    Product.find({}, function(err, items) {
+        if (err) {
+            res.json({result:"FAIL"});
+            return;
+        }
+
+        var category = [];
+
+        for (var k=0; k< items.length; k++) {
+            var f = function(E) {
+                for (var i=0; i < category.length; i++) {
+                    if (E.name == items[k].category) {
+                        return true;
+                    }
+                }
+                return false
+            }
+            var filtered = category.filter(f)
+
+            if (filtered.length == 0) {
+                category.push({id:category.length, name:items[k].category});
+            }
+
+            res.json({result:"OK", category:category});
+            return;
+        }
+    });
+});
+
 router.get('/items', function(req, res, next) {
 	console.log(req.query.category)
     Product.find({category:req.query.category}, function(err, items) {
@@ -45,6 +93,7 @@ router.get('/items', function(req, res, next) {
             res.json({result: "FAIL"});
             return;
         }
+
 		console.log(items);
 
         res.json({result:"OK", abi:Ethereum.GetContract().abi, data:items});

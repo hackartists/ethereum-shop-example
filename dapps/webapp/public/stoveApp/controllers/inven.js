@@ -7,6 +7,10 @@ angular.module('stovecoinApp')
         inven.items = [];
 
         inven.init = function() {
+			if(sharedService.user) {
+				sharedService.user.eth=EthereumService.getBalance(sharedService.user);
+			}
+
             var req = {
                 method: 'GET',
                 url: '/inven/items?uid='+sharedService.user.username,

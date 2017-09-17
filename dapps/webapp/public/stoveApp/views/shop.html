@@ -1,4 +1,4 @@
-<div id="sc_container">
+<div id="sc_container" ng-controller="ShopController as shop">
     <div id="category-container" class="row">
         <div class="col-sm-4 col-md-3 sidebar">
             <div class="row">
@@ -9,14 +9,14 @@
                         <span class="icon-bar"></span>
                     </div>
                     <div class="category list-group">
-                        <a href="#" ng-repeat="cItem in shopCtrl.category" ng-click="shopCtrl.changeCategory($index)" class="category-item list-group-item">
+                        <a ng-repeat="cItem in shop.category" ng-click="shop.changeCategory($index)" class="category-item list-group-item">
                             <i class="fa fa-comment-o"></i>{{cItem.name}}</a>
                     </div>
                 </div>
             </div>
         </div>
         <div id="product-container" class="col-sm-8 id-card-list card-list two-cards">
-            <div ng-repeat="pItem in shopCtrl.products" class="card no-rationale square-cover apps small">
+            <div ng-repeat="pItem in shop.products" class="card no-rationale square-cover apps small">
                 <div class="card-content id-track-click id-track-impression">
                     <div class="cover">
                         <div class="cover-image-container">
@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="" ng-click="shopCtrl.buyProduct($index)" class="card-click-target"></a>
+                        <a href="" ng-click="shop.buyProduct($index)" class="card-click-target"></a>
                     </div>
                     <div class="details">
                         <div class="title">{{pItem.name}}</div>
