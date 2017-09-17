@@ -40,7 +40,9 @@ router.post('/sell', function(req, res, next) {
 router.post('/purchase' , function(req,res,next) {
 	var data=req.body;
 
+	console.log("PID(purchase) : " + data.pid); 
 	Product.remove({product:data.pid}, function(err) {
+
 		if (!err) {
 			Inventory.update({ _id:data.pid }, { $set: { owner: data.uid }}, function(err,item){
 				if (err) {

@@ -47,7 +47,7 @@ myModule.service("EthereumService", function($http) {
 	  method: 'POST',
 	  url: '/product/purchase',
 	  data: {
-		pid: product.id,
+		pid: product.product,
 		uid:user.username
 	  }
 	};
