@@ -3,6 +3,7 @@ var router = express.Router();
 var Product =  require('../models/product');
 var Inventory = require('../models/inventory');
 var Ethereum = require('../models/ethereum');
+var Activity = require('../models/activity');
 
 router.post('/sell', function(req, res, next) {
     // only for API
@@ -40,21 +41,43 @@ router.post('/sell', function(req, res, next) {
 router.post('/purchase' , function(req,res,next) {
 	var data=req.body;
 
-	console.log("PID(purchase) : " + data.pid); 
-	Product.remove({product:data.pid}, function(err) {
+	console.log("PID(purchase) : " + data.pid);
+    Product.findOne({product:data.pid}, function(err, item) {
+        var price=item.price;
+        item.remove(function(err) {
+		    if (!err) {
+			    Inventory.findOneAndUpdate({ _id:data.pid }, { $set: { owner: data.uid }}, function(err,item2){
+				    if (err) {
+					    res.json({result:"FAIL"});
+					    return;
+				    }
 
-		if (!err) {
-			Inventory.update({ _id:data.pid }, { $set: { owner: data.uid }}, function(err,item){
-				if (err) {
-					res.json({result:"FAIL"});
-					return;
-				}
+				    res.json({result:"OK"});
 
-				res.json({result:"OK"});
+                    var timeNow = Date.now();
 
-			});
-		}
-	});
+                    var activity = new Activity({
+                        timestamp: timeNow,
+                        uid: data.uid,
+                        action: "purchase",
+                        stovecash: 0,
+                        ether: price
+                    });
+
+                    var activity2 = new Activity({
+                        timestamp: timeNow,
+                        uid: item2.owner,
+                        action: "sell",
+                        stovecash: 0,
+                        ether: price
+                    });
+
+                    activity.save(function(err,doc){});
+                    activity2.save(function(err,doc){});
+			    });
+		    }
+	    });
+    });
 });
 
 router.get('/category', function(req,res,next) {

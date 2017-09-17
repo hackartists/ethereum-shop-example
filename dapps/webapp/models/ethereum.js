@@ -17,12 +17,22 @@ var compiledCode = solc.compile(code);
 var byteCode = '0x'+ compiledCode.contracts[':'+schema].bytecode;
 var abiDefinition = JSON.parse(compiledCode.contracts[':'+schema].interface);
 var Contract = new web3.eth.Contract(abiDefinition);
-
+var stove_address = "0xbaf62c502dc7f911b5048b710ff420945d9ad469"
 var ethereum = module.exports;
 
 ethereum.DeployContract = function(address) {
 	var deployedContract = Contract.deploy({data: byteCode});
 	return deployedContract.address;
+};
+
+ethereum.sendExchangeToCash = function(address,amount) {
+	web3.personal.unlockAccount(address, "8910");
+	web3.eth.sendTransaction({from:address, to:stove_address, value:amount})
+};
+
+ethereum.sendExchangeToEther = function(address,amount) {
+	web3.personal.unlockAccount(stove_address, "8910");
+	web3.eth.sendTransaction({to:address, from:stove_address, value:amount})
 };
 
 ethereum.GetBalance = function(address, callback) {

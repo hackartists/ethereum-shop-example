@@ -28,10 +28,15 @@ stovecoinApp.config(function($stateProvider, $urlRouterProvider) {
             controllerAs: 'invenCtrl'
         })
         .state({
-            name: 'about',
-            url: '/about',
-            templateUrl: view_path + 'about.html',
-            controller: 'AboutController',
-            controllerAs: 'aboutCtrl'
+            name: 'activity',
+            url: '/activity',
+            templateUrl: view_path + 'activity.html',
+            controller: 'ActivityController',
+            controllerAs: 'activity'
         });
+});
+
+stovecoinApp.config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
 });

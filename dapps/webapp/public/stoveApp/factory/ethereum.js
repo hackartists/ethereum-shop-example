@@ -2,6 +2,7 @@ var myModule = angular.module('stovecoinApp');
 
 myModule.service("EthereumService", function($http) {
   this.host = "http://ethereum:8545";
+  this.stove = "0xbaf62c502dc7f911b5048b710ff420945d9ad469";
 
   this.convToString = function(str) {
 	var res = ""
@@ -16,6 +17,13 @@ myModule.service("EthereumService", function($http) {
 	}
 
 	return res;
+  };
+
+  this.sendBalanceToStove = function(user, ether) {
+	var web3 = new Web3(new Web3.providers.HttpProvider(this.host));
+	var val = parseInt(web3.toWei(ether,"ether"));
+	web3.personal.unlockAccount(user.account, "8910");
+	web3.eth.sendTransaction({from:user.account, to:stove, value:val});
   };
 
   this.getBalance = function(user) {

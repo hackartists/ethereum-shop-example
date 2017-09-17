@@ -1,0 +1,60 @@
+<div id="sc_container" >
+  <!-- <md-fab-toolbar md-open="activity.fab.isOpen" count="activity.fab.count" -->
+  <!--                 md-direction="{{activity.fab.selectedDirection}}"> -->
+  <!--   <md-fab-trigger class="align-with-text"> -->
+  <!--     <md-button aria-label="menu" class="md-fab md-primary"> -->
+  <!--       <md-icon md-svg-src="images/menu.png"></md-icon> -->
+  <!--     </md-button> -->
+  <!--   </md-fab-trigger> -->
+
+  <!--   <md-toolbar> -->
+  <!--     <md-fab-actions class="md-toolbar-tools"> -->
+  <!--       <md-button aria-label="comment" class="md-icon-button"> -->
+  <!--         <md-icon md-svg-src="img/icons/ic_comment_24px.svg"></md-icon> -->
+  <!--       </md-button> -->
+  <!--       <md-button aria-label="label" class="md-icon-button"> -->
+  <!--         <md-icon md-svg-src="img/icons/ic_label_24px.svg"></md-icon> -->
+  <!--       </md-button> -->
+  <!--       <md-button aria-label="photo" class="md-icon-button"> -->
+  <!--         <md-icon md-svg-src="img/icons/ic_photo_24px.svg"></md-icon> -->
+  <!--       </md-button> -->
+  <!--     </md-fab-actions> -->
+  <!--   </md-toolbar> -->
+  <!-- </md-fab-toolbar> -->
+
+  <md-card-content>
+    <div layout="row">
+      <md-input-container>
+        <label>Amount</label>
+        <input>
+      </md-input-container>
+      <md-input-container>
+          <label>Unit</label>
+          <md-select ng-model="activity.ex_unit" md-selected-text="activity.sel_ex()">
+            <md-option><em>None</em></md-option>
+            <md-option ng-repeat="unit in activity.ex_units" ng-value="unit">
+              {{unit}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      <md-input-container>
+        <label> {{activity.ex_msg}} </label>
+      </md-input-container>
+      
+      <md-button class="md-raised" ng-click="activity.exchange()">Exchange</md-button>
+    </div>
+  </md-card-content>
+
+
+  <md-content class="md-padding" layout-xs="column" layout="row">
+    <div flex-xs flex-gt-xs="50" layout="column">
+      <md-card ng-repeat="act in activity.acts" md-theme="{{act.theme}}" md-theme-watch>
+        <md-card-content>
+          <p>
+            {{ act.msg }}
+          </p>
+        </md-card-content>
+      </md-card>
+    </div>
+  </md-content>
+</div>
