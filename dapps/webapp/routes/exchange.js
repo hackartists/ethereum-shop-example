@@ -8,7 +8,8 @@ var User = require('../models/user');
 
 router.post('/to_cash', function(req, res, next) {
     var uid = req.body.uid;
-    var amount = req.body.amount
+    var amount = req.body.amount;
+    var pw = req.body.upw;
 
     User.findOne({username:uid}, function(err,item) {
         if (err) {
@@ -17,19 +18,16 @@ router.post('/to_cash', function(req, res, next) {
         }
 
         item.stovecoin = item.stovecoin + amount;
-
         item.save(function(err) {});
 
-        var account = item.account;
-        Ethereum.sendExchangeToCash(account,amount);
-
-        res.json({result:"OK", data:items});
+        res.json({result:"OK", data:item});
     });
 });
 
 router.post('/to_ether', function(req, res, next) {
     var uid = req.body.uid;
     var amount = req.body.amount
+    var pw = req.body.upw;
 
     User.findOne({username:uid}, function(err,item) {
         if (err) {
@@ -37,13 +35,9 @@ router.post('/to_ether', function(req, res, next) {
             return;
         }
         item.stovecoin = item.stovecoin - amount;
-
         item.save(function(err) {});
 
-        var account = item.account;
-        Ethereum.sendExchangeToEther(account,amount);
-
-        res.json({result:"OK", data:items});
+        res.json({result:"OK", data:item});
     });
 });
 

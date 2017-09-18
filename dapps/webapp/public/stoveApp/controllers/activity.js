@@ -45,14 +45,23 @@ angular.module('stovecoinApp')
         };
 
         activity.exchange = function() {
+            var stove_address = "0xbaf62c502dc7f911b5048b710ff420945d9ad469"
 
+            if (activity.ex_unit == "ETHER") {
+                EthereumService.sendBalance(stove_address, sharedService.user.account, activity.amount, "8910");
+                activity.exchangeToStovecash(activity.amount);
+                return;
+            } else {
+                EthereumService.sendBalance(sharedService.user.account, stove_address, activity.amount,"08252143");
+                activity.exchangeToEther(activity.amount);
+            }
         };
 
         activity.exchangeToStovecash = function(amount){
             var req = {
                 method: 'POST',
                 url: '/exchange/to_cash',
-                data: 'uid='+ sharedService.user.username
+                data: 'upw=8910&uid='+ sharedService.user.username
                     + '&amount=' + amount,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             };
@@ -66,7 +75,7 @@ angular.module('stovecoinApp')
             var req = {
                 method: 'POST',
                 url: '/exchange/to_ether',
-                data: 'uid='+ sharedService.user.username
+                data: 'upw=8910&uid='+ sharedService.user.username
                     + '&amount=' + amount,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             };

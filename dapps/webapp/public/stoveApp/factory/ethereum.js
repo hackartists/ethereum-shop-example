@@ -19,11 +19,11 @@ myModule.service("EthereumService", function($http) {
 	return res;
   };
 
-  this.sendBalanceToStove = function(user, ether) {
+  this.sendBalance = function(to, from, amount, pw) {
 	var web3 = new Web3(new Web3.providers.HttpProvider(this.host));
-	var val = parseInt(web3.toWei(ether,"ether"));
-	web3.personal.unlockAccount(user.account, "8910");
-	web3.eth.sendTransaction({from:user.account, to:stove, value:val});
+	var val = parseInt(web3.toWei(amount,"ether"));
+	web3.personal.unlockAccount(from, pw);
+	web3.eth.sendTransaction({from:from, to:to, value:val});
   };
 
   this.getBalance = function(user) {

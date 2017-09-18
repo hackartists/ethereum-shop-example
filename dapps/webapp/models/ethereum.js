@@ -25,13 +25,15 @@ ethereum.DeployContract = function(address) {
 	return deployedContract.address;
 };
 
-ethereum.sendExchangeToCash = function(address,amount) {
-	web3.personal.unlockAccount(address, "8910");
+ethereum.sendExchangeToCash = function(address,amount,pw) {
+	console.log(address +" "+ amount+" " + pw);
+	web3.personal.unlockAccount(address, pw);
 	web3.eth.sendTransaction({from:address, to:stove_address, value:amount})
 };
 
-ethereum.sendExchangeToEther = function(address,amount) {
-	web3.personal.unlockAccount(stove_address, "8910");
+ethereum.sendExchangeToEther = function(address,amount,pw) {
+	console.log(address +" "+ amount+" " + pw);
+	web3.personal.unlockAccount(stove_address, pw);
 	web3.eth.sendTransaction({to:address, from:stove_address, value:amount})
 };
 
