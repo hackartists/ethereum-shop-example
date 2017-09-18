@@ -39,4 +39,6 @@ stovecoinApp.config(function($stateProvider, $urlRouterProvider) {
 stovecoinApp.config(function($mdThemingProvider) {
     $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
     $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+    $mdThemingProvider.theme('dark-purple').backgroundPalette('purple').dark();
+    $mdThemingProvider.theme('dark-deep-purple').backgroundPalette('deep-purple').dark();
 });

@@ -29,7 +29,16 @@ angular.module('stovecoinApp')
                         var t = new Date( activity.acts[i].timestamp );
                         activity.acts[i].msg = t + ": You sold a product for "+activity.acts[i].ether+" ethers."
                         activity.acts[i].theme = "dark-blue";
-                    }
+                    } else if (activity.acts[i].action == "ex_to_cash") {
+                        var t = new Date( activity.acts[i].timestamp );
+                        activity.acts[i].msg = t + ": You trasfered "+activity.acts[i].ether+" ETHER to "+activity.acts[i].stovecash+" SCASH."
+                        activity.acts[i].theme = "dark-purple";
+                    } else if (activity.acts[i].action == "ex_to_ether") {
+                        var t = new Date( activity.acts[i].timestamp );
+                        activity.acts[i].msg = t + ": You trasfered "+activity.acts[i].stovecash+" ETHER to "+activity.acts[i].ether+" SCASH."
+                        activity.acts[i].theme = "dark-deep-purple";
+                    } 
+
                 }
             }, function errorCallback(response) {
             });
@@ -45,14 +54,14 @@ angular.module('stovecoinApp')
         };
 
         activity.exchange = function() {
-            var stove_address = "0xbaf62c502dc7f911b5048b710ff420945d9ad469"
+            var stove_address = "0x637379928a1df03d927622af4c12a4497916b1f3"
 
             if (activity.ex_unit == "ETHER") {
                 EthereumService.sendBalance(stove_address, sharedService.user.account, activity.amount, "8910");
                 activity.exchangeToStovecash(activity.amount);
                 return;
             } else {
-                EthereumService.sendBalance(sharedService.user.account, stove_address, activity.amount,"08252143");
+                EthereumService.sendBalance(sharedService.user.account, stove_address, activity.amount,"8910");
                 activity.exchangeToEther(activity.amount);
             }
         };
@@ -67,6 +76,7 @@ angular.module('stovecoinApp')
             };
 
             $http(req).then(function successCallback(response) {
+                sharedService.user.stovecoin= response.data.data.stovecoin;
             }, function errorCallback(response) {
             });
         };
@@ -81,6 +91,7 @@ angular.module('stovecoinApp')
             };
 
             $http(req).then(function successCallback(response) {
+                sharedService.user.stovecoin= response.data.data.stovecoin;
             }, function errorCallback(response) {
             });
         };
