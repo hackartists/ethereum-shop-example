@@ -2,7 +2,7 @@ var myModule = angular.module('stovecoinApp');
 
 myModule.service("EthereumService", function($http) {
   this.host = "http://ethereum:8545";
-  this.stove = "0xbaf62c502dc7f911b5048b710ff420945d9ad469";
+  this.stove = "0x637379928a1df03d927622af4c12a4497916b1f3";
 
   this.convToString = function(str) {
 	var res = ""
@@ -72,7 +72,7 @@ myModule.service("EthereumService", function($http) {
 
 	var res;
 
-	if (tx.contractAddress) {
+	if (tx != null && tx.contractAddress) {
 	  res = {result:true, contract:web3.eth.contract(abi).at(tx.contractAddress)};
 	} else {
 	  res = {result:false}

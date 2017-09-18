@@ -62,7 +62,9 @@ html(ng-app='stovecoinApp')
             li
               div.login-text {{stove.user.username}}
             li
-              div.login-text {{stove.user.eth}}
+              div.login-text E: {{stove.user.eth}}, 
+            li
+              div.login-text C: {{stove.user.stovecoin}}
     ui-view
     footer.footer
       .container

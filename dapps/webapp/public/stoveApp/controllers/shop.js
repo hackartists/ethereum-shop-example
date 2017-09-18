@@ -25,19 +25,20 @@ angular.module('stovecoinApp')
 	    };
 
         shop.getCategory = function(callback) {
-            var req = {
+			var req = {
                 method: 'GET',
                 url: '/product/category'
             };
 
-            $http(req).then(function successCallback(response) {
+			$http(req).then(function successCallback(response) {
                 if (response.data.result == "OK") {
-                    shop.category = response.data.category;
+                    shop.category = response.data.data;
 					callback();
                 }
             }, function errorCallback(response) {
             });
-        };
+		};
+
 
         shop.getProducts = function() {
             var req = {
@@ -49,7 +50,7 @@ angular.module('stovecoinApp')
                 if (response.data.result == "OK") {
                     shop.products = [];
                     products = response.data.data;
-					shop.products = products;
+					shop.tproducts = products;
                     var abi = response.data.abi;
 
                     for (var i=0; i<products.length; i++) {
@@ -57,23 +58,23 @@ angular.module('stovecoinApp')
 
                         if (contract.result) {
 							var contract = contract.contract;
-							shop.products[i].contract = contract;
+							shop.tproducts[i].contract = contract;
 							var info = EthereumService.getInfo(contract);
 
 							var r = {
 								method: 'GET',
-								url: '/inven/item?inven_id='+info._id
+								url: '/inven/item?inven_id='+products[i].product
 							};
 
 							$http(r).then(function callback(res) {
 								var item = res.data.data;
-								var product = shop.products.filter(function(x) {
+								var product = shop.tproducts.filter(function(x) {
 									return x.product == item._id
 								})[0];
 
 								product.image = item.image;
 								product.name = item.name;
-								//shop.products.push(item);
+								shop.products.push(product);
 							}, function errorCallback(response) {
 							});
                         }

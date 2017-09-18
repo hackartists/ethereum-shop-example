@@ -81,34 +81,31 @@ router.post('/purchase' , function(req,res,next) {
 });
 
 router.get('/category', function(req,res,next) {
-    Product.find({}, function(err, items) {
-        if (err) {
-            res.json({result:"FAIL"});
+	Product.find({}, function(err, items) {
+        if(err){
+            console.error(err);
+            res.json({result: "FAIL"});
             return;
         }
 
-        var category = [];
+		var category = [];
 
-        for (var k=0; k< items.length; k++) {
-            var f = function(E) {
-                for (var i=0; i < category.length; i++) {
-                    if (E.name == items[k].category) {
-                        return true;
-                    }
-                }
-                return false
-            }
-            var filtered = category.filter(f)
+		for (var i=0; i<items.length; i++) {
+			filter = function(e) {
+				return e.name == items[i].category
+			};
 
-            if (filtered.length == 0) {
-                category.push({id:category.length, name:items[k].category});
-            }
+			var filtered = category.filter(filter)
 
-            res.json({result:"OK", category:category});
-            return;
-        }
+			if (filtered.length <= 0 ) {
+				category.push({id:category.length, name: items[i].category});
+			}
+		}
+
+        res.json({result:"OK", data:category});
     });
 });
+
 
 router.get('/items', function(req, res, next) {
 	console.log(req.query.category)
