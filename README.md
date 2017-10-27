@@ -3,6 +3,12 @@
 This guide has been made only for Mac OS X.
 
 ## Preliminaries
+  - Install Node.js and global package
+``` shell
+brew install node
+npm install -g solc nodemon
+```
+
   - Install MongoDB
 
 ``` shell
