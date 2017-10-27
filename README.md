@@ -33,7 +33,7 @@ export DATA_DIR=$HOME/chain
     - The first account will be rewared from ethereum where mining; the account is miner.
   
 ``` shell
-geth --identity "Stovecoin" --rpc --rpcport "8545" -- rpccorsdomain "*" --datadir "$DATA_DIR" --port "30303" --nodiscover --rpcapi "db,eth,net,personal,web3" --rpcaddr "127.0.0.1" --networkid 1999 account new
+geth account new
 ```
 
   - Write genesis file for initial block setting.
@@ -64,7 +64,7 @@ geth --identity "Stovecoin" --rpc --rpcport "8545" -- rpccorsdomain "*" --datadi
   - Apply the file into the initial block before starting the Ethereum.
   
   ```shell
-  geth --identity "Stovecoin" --rpc --rpcport "8545" -- rpccorsdomain "*" --datadir "$DATA_DIR" --port "30303" --nodiscover --rpcapi "db,eth,net,personal,web3" -- rpcaddr "127.0.0.1" --networkid 1999 init custom_genesis.json
+  geth init custom_genesis.json
   ```
   
   - Starting Ethereum
