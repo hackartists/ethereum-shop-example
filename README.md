@@ -84,6 +84,7 @@ npm install
 ### Mapping Ethereum account to D-App user
   - Sign up a user on the D-App.
   - Connect into MongoDB and modify user's document.
+  
   ```json
   {
     "_id" : ObjectId("59a7662b11697a439b10be17"),
@@ -98,6 +99,7 @@ npm install
 ## Queations
 ### Reset all of blocks
   - For reseting the blocks, you could eliminate the chain data of Ethereum and then re-applying the genesis file.
+  
   ```shell
   rm -rf $DATA_DIR/geth/chaindata $DATA_DIR/geth/lightchaindata
   geth --identity "Stovecoin" --rpc --rpcport "8545" --rpccorsdomain "*" --datadir "$DATA_DIR" --port "30303" --nodiscover --rpcapi "db,eth,net,web3" --networkid 1999 init custom_genesis.json
