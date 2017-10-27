@@ -22,13 +22,16 @@ echo "127.0.0.1 mongodb ethereum" >> /etc/hosts
 ```
   
 ## Setting up Ethereum for private
-  - Add accounts
+  - Fistly, you should add accounts. You remark addresses of generated accounts ant they will be facilitated to write genesis file in next step.
+    - The first account will be rewared from ethereum where mining; the account is miner.
   
 ``` shell
-geth --identity "Stovecoin" --rpc --rpcport "8545" -- rpccorsdomain "*" --datadir "~/Data/chain" --port "30303" --nodiscover --rpcapi "db,eth,net,personal,web3" --rpcaddr "172.17.0.10" --networkid 1999 account new
+geth --identity "Stovecoin" --rpc --rpcport "8545" -- rpccorsdomain "*" --datadir "~/Data/chain" --port "30303" --nodiscover --rpcapi "db,eth,net,personal,web3" --rpcaddr "127.0.0.1" --networkid 1999 account new
 ```
 
   - Write genesis file for initial block setting.
+    - `{account address}` has to be replaced with the actual addresses resulted in the above step.
+    - The key contents of belows is `alloc` making balances.
   
 ``` json
 {
