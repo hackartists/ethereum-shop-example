@@ -86,14 +86,14 @@ npm install
   - Connect into MongoDB and modify user's document.
   
   ```json
-  {
+{
     "_id" : ObjectId("59a7662b11697a439b10be17"),
     "username" : "user1",
     "password" : "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
     "account" : "{account address}",
     "stovecoin" : 181998,
     "__v" : 0
-  }
+}
   ```
 
 ## Queations
